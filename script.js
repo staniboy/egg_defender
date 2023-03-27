@@ -10,11 +10,14 @@ window.addEventListener("load", function () {
   ctx.strokeStyle = "white";
 
   class Player {
-    constructor(game) {
+    constructor(/**@type {Game} */ game) {
       this.game = game;
       this.collisionX = this.game.width * 0.5;
       this.collisionY = this.game.height * 0.5;
       this.collisionRarius = 30;
+
+      this.speedX = 0;
+      this.speedY = 0;
     }
     draw(/** @type {CanvasRenderingContext2D} */ context) {
       context.beginPath();
