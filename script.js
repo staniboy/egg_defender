@@ -60,12 +60,37 @@ window.addEventListener("load", function () {
     }
   }
 
+  class Obstacle {
+    constructor(/**@type {Game} */ game) {
+      this.game = game;
+      this.collisionX = Math.random() * this.game.width;
+      this.collisionY = Math.random() * this.game.height;
+      this.collisionRadius = 50;
+    }
+    draw(/** @type {CanvasRenderingContext2D} */ context) {
+      context.beginPath();
+      context.arc(
+        this.collisionX,
+        this.collisionY,
+        this.collisionRadius,
+        0,
+        Math.PI * 2
+      );
+      context.save();
+      context.globalAlpha = 0.5;
+      context.fill();
+      context.restore();
+      context.stroke();
+    }
+  }
   class Game {
     constructor(/** @type {HTMLCanvasElement} */ canvas) {
       this.canvas = canvas;
       this.width = this.canvas.width;
       this.height = this.canvas.height;
       this.player = new Player(this);
+      this.numberOfObstacles = 5;
+      this.obstacles = [];
       this.mouse = {
         x: this.width * 0.5,
         y: this.height * 0.5,
@@ -99,11 +124,18 @@ window.addEventListener("load", function () {
 
     render(/** @type {CanvasRenderingContext2D} */ context) {
       this.player.draw(context);
+      this.obstacles.forEach((obstacle) => obstacle.draw(context));
       this.player.update();
+    }
+    init() {
+      for (let i = 0; i < this.numberOfObstacles; i++) {
+        this.obstacles.push(new Obstacle(this));
+      }
     }
   }
 
   const game = new Game(canvas);
+  game.init();
 
   function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
