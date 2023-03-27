@@ -34,12 +34,40 @@ window.addEventListener("load", function () {
   }
 
   class Game {
-    constructor(canvas) {
+    constructor(/** @type {HTMLCanvasElement} */ canvas) {
       this.canvas = canvas;
       this.width = this.canvas.width;
       this.height = this.canvas.height;
       this.player = new Player(this);
+      this.mouse = {
+        x: this.width * 0.5,
+        y: this.height * 0.5,
+        pressed: false,
+      };
+
+      // event listeners
+      this.canvas.addEventListener(
+        "mousedown",
+        (/** @type {MouseEvent} */ e) => {
+          this.mouse.x = e.offsetX;
+          this.mouse.y = e.offsetY;
+          this.mouse.pressed = true;
+        }
+      );
+      this.canvas.addEventListener("mouseup", (/** @type {MouseEvent} */ e) => {
+        this.mouse.x = e.offsetX;
+        this.mouse.y = e.offsetY;
+        this.mouse.pressed = false;
+      });
+      this.canvas.addEventListener(
+        "mousemove",
+        (/** @type {MouseEvent} */ e) => {
+          this.mouse.x = e.offsetX;
+          this.mouse.y = e.offsetY;
+        }
+      );
     }
+
     render(context) {
       this.player.draw(context);
     }
