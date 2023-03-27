@@ -80,14 +80,18 @@ window.addEventListener("load", function () {
       );
     }
 
-    render(context) {
+    render(/** @type {CanvasRenderingContext2D} */ context) {
       this.player.draw(context);
+      this.player.update();
     }
   }
 
   const game = new Game(canvas);
-  game.render(ctx);
-  console.log(game);
 
-  function animate() {}
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    game.render(ctx);
+    requestAnimationFrame(animate);
+  }
+  animate();
 });
