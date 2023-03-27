@@ -9,6 +9,11 @@ window.addEventListener('load', function() {
         constructor(game) {
             this.game = game;
         }
+        draw(context) {
+            context.beginPath();
+            context.arc(100, 100, 50, 0, MATH.PI * 2);
+            context.fill();
+        }
     }
 
     class Game {
@@ -16,7 +21,11 @@ window.addEventListener('load', function() {
             this.canvas = canvas;
             this.width = this.canvas.width;
             this.height = this.canvas.height;
-            this.playear = new Player(this);
+
+            this.player = new Player(this);
+        }
+        render(context) {
+            this.player.draw(context);
         }
     }
 
