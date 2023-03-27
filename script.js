@@ -14,17 +14,22 @@ window.addEventListener("load", function () {
       this.game = game;
       this.collisionX = this.game.width * 0.5;
       this.collisionY = this.game.height * 0.5;
-      this.collisionRarius = 30;
+      this.collisionRadius = 30;
 
       this.speedX = 0;
       this.speedY = 0;
+      this.speedModifier = 5;
+
+      this.dx = 0;
+      this.dy = 0;
+      this.distance = 0;
     }
     draw(/** @type {CanvasRenderingContext2D} */ context) {
       context.beginPath();
       context.arc(
         this.collisionX,
         this.collisionY,
-        this.collisionRarius,
+        this.collisionRadius,
         0,
         Math.PI * 2
       );
@@ -40,11 +45,18 @@ window.addEventListener("load", function () {
       context.stroke();
     }
     update() {
-      this.speedX = (this.game.mouse.x - this.collisionX) / 20;
-      this.speedY = (this.game.mouse.y - this.collisionY) / 20;
-
-      this.collisionX += this.speedX;
-      this.collisionY += this.speedY;
+      this.dx = this.game.mouse.x - this.collisionX;
+      this.dy = this.game.mouse.y - this.collisionY;
+      this.distance = Math.hypot(this.dy, this.dx);
+      if (this.distance > this.speedModifier) {
+        this.speedX = this.dx / this.distance;
+        this.speedY = this.dy / this.distance;
+      } else {
+        this.speedX = 0;
+        this.speedY = 0;
+      }
+      this.collisionX += this.speedX * this.speedModifier;
+      this.collisionY += this.speedY * this.speedModifier;
     }
   }
 
@@ -77,8 +89,10 @@ window.addEventListener("load", function () {
       this.canvas.addEventListener(
         "mousemove",
         (/** @type {MouseEvent} */ e) => {
-          this.mouse.x = e.offsetX;
-          this.mouse.y = e.offsetY;
+          if (this.mouse.pressed) {
+            this.mouse.x = e.offsetX;
+            this.mouse.y = e.offsetY;
+          }
         }
       );
     }
