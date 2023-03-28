@@ -46,5 +46,12 @@ export default class Player {
     }
     this.collisionX += this.speedX * this.speedModifier;
     this.collisionY += this.speedY * this.speedModifier;
+
+    // Collision Detection
+    this.game.obstacles.forEach((obstacle) => {
+      if (this.game.checkCollision(this, obstacle)) {
+        console.log("collision detected");
+      }
+    });
   }
 }
