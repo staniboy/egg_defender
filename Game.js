@@ -6,6 +6,7 @@ export default class Game {
     this.canvas = canvas;
     this.width = this.canvas.width;
     this.height = this.canvas.height;
+    this.topMargin = 260;
     /** @type {Player} */ this.player = new Player(this);
     this.numberOfObstacles = 10;
     /** @type {Obstacle[]} */ this.obstacles = [];
@@ -48,13 +49,26 @@ export default class Game {
         const dx = testObstacle.collisionX - obstacle.collisionX;
         const dy = testObstacle.collisionY - obstacle.collisionY;
         const distance = Math.hypot(dy, dx);
+        const distanceBuffer = 150;
         const sumOfRadii =
           testObstacle.collisionRadius + obstacle.collisionRadius;
-        if (distance < sumOfRadii) {
+
+        if (distance < sumOfRadii + distanceBuffer) {
           overlap = true;
         }
       });
-      if (!overlap) this.obstacles.push(testObstacle);
+
+      const margin = testObstacle.collisionRadius * 2;
+      if (
+        !overlap &&
+        testObstacle.spriteX > 0 &&
+        testObstacle.spriteX < this.width - testObstacle.width &&
+        testObstacle.collisionY > this.topMargin + margin &&
+        testObstacle.collisionY < this.height - margin
+      ) {
+        this.obstacles.push(testObstacle);
+      }
+
       attempts++;
     }
   }
