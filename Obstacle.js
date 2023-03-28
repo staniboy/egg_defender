@@ -21,6 +21,18 @@ export default class Obstacle {
   }
   /** @param {CanvasRenderingContext2D} context */
   draw(context) {
+    context.drawImage(
+      this.image,
+      this.frameX * this.spriteWidth,
+      this.frameY * this.spriteHeight,
+      this.spriteWidth,
+      this.spriteHeight,
+      this.spriteX,
+      this.spriteY,
+      this.width,
+      this.height
+    );
+
     context.beginPath();
     context.arc(
       this.collisionX,
@@ -34,17 +46,5 @@ export default class Obstacle {
     context.fill();
     context.restore();
     context.stroke();
-
-    context.drawImage(
-      this.image,
-      this.frameX * this.spriteWidth,
-      this.frameY * this.spriteHeight,
-      this.spriteWidth,
-      this.spriteHeight,
-      this.spriteX,
-      this.spriteY,
-      this.width,
-      this.height
-    );
   }
 }
