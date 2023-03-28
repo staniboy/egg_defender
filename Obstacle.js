@@ -14,6 +14,9 @@ export default class Obstacle {
 
     this.spriteX = this.collisionX - this.width * 0.5;
     this.spriteY = this.collisionY - this.height * 0.5 - 75;
+
+    this.frameX = Math.floor(Math.random() * 4);
+    this.frameY = Math.floor(Math.random() * 3);
   }
   draw(/** @type {CanvasRenderingContext2D} */ context) {
     context.beginPath();
@@ -32,8 +35,8 @@ export default class Obstacle {
 
     context.drawImage(
       this.image,
-      0,
-      0,
+      this.frameX * this.spriteWidth,
+      this.frameY * this.spriteHeight,
       this.spriteWidth,
       this.spriteHeight,
       this.spriteX,
