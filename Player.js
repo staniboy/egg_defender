@@ -61,7 +61,6 @@ export default class Player {
         const unit_y = dy / distance;
         this.collisionX = obstacle.collisionX + (sumOfRadii + 1) * unit_x;
         this.collisionY = obstacle.collisionY + (sumOfRadii + 1) * unit_y;
-        console.log("collision detected");
       }
     });
   }
