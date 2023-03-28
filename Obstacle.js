@@ -1,5 +1,3 @@
-import Game from "./Game";
-
 export default class Obstacle {
   constructor(/**@type {Game} */ game) {
     this.game = game;
