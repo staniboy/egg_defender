@@ -4,8 +4,13 @@
   "description": "JS game based on YT tutorial by @Frankslaboratory",
   "main": "script.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "author": "Stanislav Vysotskiy",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "vite": "^4.2.1"
+  }
 }
