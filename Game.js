@@ -38,8 +38,8 @@ export default class Game {
 
   /** @param {CanvasRenderingContext2D} context */
   render(context) {
-    this.player.draw(context);
     this.obstacles.forEach((obstacle) => obstacle.draw(context));
+    this.player.draw(context);
     this.player.update();
   }
 
@@ -55,7 +55,6 @@ export default class Game {
         const distanceBuffer = 150;
         const sumOfRadii =
           testObstacle.collisionRadius + obstacle.collisionRadius;
-
         if (distance < sumOfRadii + distanceBuffer) {
           overlap = true;
         }
@@ -76,14 +75,20 @@ export default class Game {
     }
   }
 
-  /** @returns {boolean} */
+  /**
+   * Checks if 2 game objects collide. Returns boolean and collision information.
+   * @param {Object} a Object that contains collisionX and collisionY properties.
+   * @param {Object} b Object that contains collisionX and collisionY properties.
+   * @returns {Array} boolean, dx, dy, distance and sumOfRadii
+   */
   checkCollision(a, b) {
     const dx = a.collisionX - b.collisionX;
     const dy = a.collisionY - b.collisionY;
     const distance = Math.hypot(dy, dx);
     const sumOfRadii = a.collisionRadius + b.collisionRadius;
-    return distance < sumOfRadii;
+    return [distance < sumOfRadii, dx, dy, distance, sumOfRadii];
   }
+
   init() {
     this.populateObstacles();
   }
