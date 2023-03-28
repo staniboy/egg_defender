@@ -7,7 +7,7 @@ export default class Game {
     this.width = this.canvas.width;
     this.height = this.canvas.height;
     /** @type {Player} */ this.player = new Player(this);
-    this.numberOfObstacles = 5;
+    this.numberOfObstacles = 10;
     /** @type {Obstacle[]} */ this.obstacles = [];
     this.mouse = {
       x: this.width * 0.5,
