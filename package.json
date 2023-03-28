@@ -2,7 +2,7 @@
   "name": "egg-defender",
   "version": "1.0.0",
   "description": "JS game based on YT tutorial by @Frankslaboratory",
-  "main": "script.js",
+  "main": "main.js",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
