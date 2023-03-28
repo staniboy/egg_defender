@@ -49,9 +49,18 @@ export default class Player {
     this.collisionX += this.speedX * this.speedModifier;
     this.collisionY += this.speedY * this.speedModifier;
 
-    // Collision Detection
+    // Collision Detection and Handling
     this.game.obstacles.forEach((obstacle) => {
-      if (this.game.checkCollision(this, obstacle)) {
+      let [collision, dx, dy, distance, sumOfRadii] = this.game.checkCollision(
+        this,
+        obstacle
+      );
+
+      if (collision) {
+        const unit_x = dx / distance;
+        const unit_y = dy / distance;
+        this.collisionX = obstacle.collisionX + (sumOfRadii + 1) * unit_x;
+        this.collisionY = obstacle.collisionY + (sumOfRadii + 1) * unit_y;
         console.log("collision detected");
       }
     });
