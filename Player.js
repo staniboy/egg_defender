@@ -1,5 +1,6 @@
 export default class Player {
-  constructor(/**@type {Game} */ game) {
+  /**@param {Game} game */
+  constructor(game) {
     this.game = game;
     this.collisionX = this.game.width * 0.5;
     this.collisionY = this.game.height * 0.5;
@@ -13,7 +14,8 @@ export default class Player {
     this.dy = 0;
     this.distance = 0;
   }
-  draw(/** @type {CanvasRenderingContext2D} */ context) {
+  /** @param {CanvasRenderingContext2D} context */
+  draw(context) {
     context.beginPath();
     context.arc(
       this.collisionX,

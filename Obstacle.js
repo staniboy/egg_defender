@@ -1,5 +1,6 @@
 export default class Obstacle {
-  constructor(/**@type {Game} */ game) {
+  /** @param {Game} game */
+  constructor(game) {
     this.game = game;
     this.collisionX = Math.random() * this.game.width;
     this.collisionY = Math.random() * this.game.height;
@@ -18,7 +19,8 @@ export default class Obstacle {
     this.frameX = Math.floor(Math.random() * 4);
     this.frameY = Math.floor(Math.random() * 3);
   }
-  draw(/** @type {CanvasRenderingContext2D} */ context) {
+  /** @param {CanvasRenderingContext2D} context */
+  draw(context) {
     context.beginPath();
     context.arc(
       this.collisionX,

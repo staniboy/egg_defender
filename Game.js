@@ -2,7 +2,8 @@ import Player from "./Player";
 import Obstacle from "./Obstacle";
 
 export default class Game {
-  constructor(/** @type {HTMLCanvasElement} */ canvas) {
+  /** @param {HTMLCanvasElement} canvas */
+  constructor(canvas) {
     this.canvas = canvas;
     this.width = this.canvas.width;
     this.height = this.canvas.height;
@@ -35,11 +36,13 @@ export default class Game {
     });
   }
 
-  render(/** @type {CanvasRenderingContext2D} */ context) {
+  /** @param {CanvasRenderingContext2D} context */
+  render(context) {
     this.player.draw(context);
     this.obstacles.forEach((obstacle) => obstacle.draw(context));
     this.player.update();
   }
+
   populateObstacles() {
     let attempts = 0;
     while (this.obstacles.length < this.numberOfObstacles && attempts < 500) {
@@ -72,6 +75,7 @@ export default class Game {
       attempts++;
     }
   }
+
   /** @returns {boolean} */
   checkCollision(a, b) {
     const dx = a.collisionX - b.collisionX;
