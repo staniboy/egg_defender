@@ -3,6 +3,14 @@ import type Game from "./Game";
 export default class Player {
   game: Game;
 
+  image: CanvasImageSource;
+  spriteWidth: number;
+  spriteHeight: number;
+  width: number;
+  height: number;
+  spriteX: number = 0;
+  spriteY: number = 0;
+
   collisionX: number;
   collisionY: number;
   collisionRadius: number;
@@ -17,9 +25,16 @@ export default class Player {
 
   constructor(game: Game) {
     this.game = game;
+
     this.collisionX = this.game.width * 0.5;
     this.collisionY = this.game.height * 0.5;
-    this.collisionRadius = 30;
+    this.collisionRadius = 45;
+
+    this.image = document.getElementById("bull") as CanvasImageSource;
+    this.spriteWidth = 255;
+    this.spriteHeight = 255;
+    this.width = this.spriteWidth;
+    this.height = this.spriteHeight;
 
     this.speedX = 0;
     this.speedY = 0;
@@ -31,6 +46,17 @@ export default class Player {
   }
 
   draw(context: CanvasRenderingContext2D) {
+    context.drawImage(
+      this.image,
+      0 * this.spriteWidth,
+      0 * this.spriteHeight,
+      this.spriteWidth,
+      this.spriteHeight,
+      this.spriteX,
+      this.spriteY,
+      this.width,
+      this.height
+    );
     context.beginPath();
     context.arc(
       this.collisionX,
@@ -64,6 +90,8 @@ export default class Player {
     }
     this.collisionX += this.speedX * this.speedModifier;
     this.collisionY += this.speedY * this.speedModifier;
+    this.spriteX = this.collisionX - this.width * 0.5;
+    this.spriteY = this.collisionY - this.width * 0.5 - 80;
 
     // Collision Detection and Handling
     this.game.obstacles.forEach((obstacle) => {
