@@ -42,8 +42,8 @@ export default class Player {
   draw(context: CanvasRenderingContext2D) {
     context.drawImage(
       this.image,
-      0 * this.spriteWidth,
-      0 * this.spriteHeight,
+      this.frameX * this.spriteWidth,
+      this.frameY * this.spriteHeight,
       this.spriteWidth,
       this.spriteHeight,
       this.spriteX,
@@ -74,6 +74,18 @@ export default class Player {
   update() {
     this.dx = this.game.mouse.x - this.collisionX;
     this.dy = this.game.mouse.y - this.collisionY;
+
+    const angle = Math.atan2(this.dy, this.dx);
+
+    if (angle < -2.74 || angle > 2.74) this.frameY = 6;
+    else if (angle < -1.96) this.frameY = 7;
+    else if (angle < -1.17) this.frameY = 0;
+    else if (angle < -0.39) this.frameY = 1;
+    else if (angle < 0.39) this.frameY = 2;
+    else if (angle < 1.17) this.frameY = 3;
+    else if (angle < 1.96) this.frameY = 4;
+    else if (angle < 2.74) this.frameY = 5;
+
     this.distance = Math.hypot(this.dy, this.dx);
     if (this.distance > this.speedModifier) {
       this.speedX = this.dx / this.distance;
