@@ -93,9 +93,8 @@ export default class Game {
    * Checks if 2 game objects collide. Returns boolean and collision information.
    * @param {Object} a Object that contains collisionX and collisionY properties.
    * @param {Object} b Object that contains collisionX and collisionY properties.
-   * @returns {Array} boolean, dx, dy, distance and sumOfRadii
    */
-  checkCollision(a: any, b: any): any[] {
+  checkCollision(a: any, b: any): [boolean, number, number, number, number] {
     const dx = a.collisionX - b.collisionX;
     const dy = a.collisionY - b.collisionY;
     const distance = Math.hypot(dy, dx);
