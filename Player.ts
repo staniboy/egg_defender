@@ -101,6 +101,17 @@ export default class Player {
     this.spriteX = this.collisionX - this.width * 0.5;
     this.spriteY = this.collisionY - this.width * 0.5 - 80;
 
+    // Boundaries Handling
+    if (this.collisionX < this.collisionRadius)
+      this.collisionX = this.collisionRadius;
+    else if (this.collisionX > this.game.width - this.collisionRadius)
+      this.collisionX = this.game.width - this.collisionRadius;
+
+    if (this.collisionY < this.game.topMargin + this.collisionRadius)
+      this.collisionY = this.game.topMargin + this.collisionRadius;
+    else if (this.collisionY > this.game.height - this.collisionRadius)
+      this.collisionY = this.game.height - this.collisionRadius;
+
     // Collision Detection and Handling
     this.game.obstacles.forEach((obstacle) => {
       let [collision, dx, dy, distance, sumOfRadii] = this.game.checkCollision(
