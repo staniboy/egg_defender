@@ -114,12 +114,12 @@ export default class Player {
 
     // Collision Detection and Handling
     this.game.obstacles.forEach((obstacle) => {
-      let [collision, dx, dy, distance, sumOfRadii] = this.game.checkCollision(
+      let { collide, dx, dy, distance, sumOfRadii } = this.game.checkCollision(
         this,
         obstacle
       );
 
-      if (collision) {
+      if (collide) {
         const unit_x = dx / distance;
         const unit_y = dy / distance;
         this.collisionX = obstacle.collisionX + (sumOfRadii + 1) * unit_x;

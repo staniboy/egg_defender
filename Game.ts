@@ -7,6 +7,14 @@ interface Mouse {
   pressed: boolean;
 }
 
+interface CollisionInfo {
+  collide: boolean;
+  dx: number;
+  dy: number;
+  distance: number;
+  sumOfRadii: number;
+}
+
 export default class Game {
   canvas: HTMLCanvasElement;
   width: number;
@@ -98,12 +106,12 @@ export default class Game {
    * @param {Object} a Object that contains collisionX and collisionY properties.
    * @param {Object} b Object that contains collisionX and collisionY properties.
    */
-  checkCollision(a: any, b: any): [boolean, number, number, number, number] {
+  checkCollision(a: any, b: any): CollisionInfo {
     const dx = a.collisionX - b.collisionX;
     const dy = a.collisionY - b.collisionY;
     const distance = Math.hypot(dy, dx);
     const sumOfRadii = a.collisionRadius + b.collisionRadius;
-    return [distance < sumOfRadii, dx, dy, distance, sumOfRadii];
+    return { collide: distance < sumOfRadii, dx, dy, distance, sumOfRadii };
   }
 
   init() {
