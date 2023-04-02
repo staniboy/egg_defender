@@ -16,6 +16,7 @@ export default class Game {
   numberOfObstacles: number;
   obstacles: Obstacle[];
   mouse: Mouse;
+  debug: boolean = true;
 
   constructor(canvas: HTMLCanvasElement) {
     this.canvas = canvas;
@@ -47,6 +48,9 @@ export default class Game {
         this.mouse.x = e.offsetX;
         this.mouse.y = e.offsetY;
       }
+    });
+    document.addEventListener("keydown", (e: KeyboardEvent) => {
+      if (e.code == "KeyD") this.debug = !this.debug;
     });
   }
 

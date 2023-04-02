@@ -52,19 +52,20 @@ export default class Obstacle {
       this.width,
       this.height
     );
-
-    context.beginPath();
-    context.arc(
-      this.collisionX,
-      this.collisionY,
-      this.collisionRadius,
-      0,
-      Math.PI * 2
-    );
-    context.save();
-    context.globalAlpha = 0.5;
-    context.fill();
-    context.restore();
-    context.stroke();
+    if (this.game.debug) {
+      context.beginPath();
+      context.arc(
+        this.collisionX,
+        this.collisionY,
+        this.collisionRadius,
+        0,
+        Math.PI * 2
+      );
+      context.save();
+      context.globalAlpha = 0.5;
+      context.fill();
+      context.restore();
+      context.stroke();
+    }
   }
 }
