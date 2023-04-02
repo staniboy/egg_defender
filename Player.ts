@@ -1,6 +1,21 @@
+import type Game from "./Game";
+
 export default class Player {
-  /**@param {Game} game */
-  constructor(game) {
+  game: Game;
+
+  collisionX: number;
+  collisionY: number;
+  collisionRadius: number;
+
+  speedX: number;
+  speedY: number;
+  speedModifier: number;
+
+  dx: number;
+  dy: number;
+  distance: number;
+
+  constructor(game: Game) {
     this.game = game;
     this.collisionX = this.game.width * 0.5;
     this.collisionY = this.game.height * 0.5;
@@ -14,8 +29,8 @@ export default class Player {
     this.dy = 0;
     this.distance = 0;
   }
-  /** @param {CanvasRenderingContext2D} context */
-  draw(context) {
+
+  draw(context: CanvasRenderingContext2D) {
     context.beginPath();
     context.arc(
       this.collisionX,
@@ -35,6 +50,7 @@ export default class Player {
     context.lineTo(this.game.mouse.x, this.game.mouse.y);
     context.stroke();
   }
+
   update() {
     this.dx = this.game.mouse.x - this.collisionX;
     this.dy = this.game.mouse.y - this.collisionY;

@@ -1,9 +1,8 @@
-import Game from "./Game.js";
+import Game from "./Game";
 
 window.addEventListener("load", function () {
-  /** @type {HTMLCanvasElement} */
-  const canvas = this.document.getElementById("canvas1");
-  const ctx = canvas.getContext("2d");
+  const canvas = this.document.getElementById("canvas1") as HTMLCanvasElement;
+  const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
   canvas.width = 1280;
   canvas.height = 720;
 

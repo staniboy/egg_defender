@@ -1,12 +1,33 @@
+import type Game from "./Game";
+
 export default class Obstacle {
-  /** @param {Game} game */
-  constructor(game) {
+  game: Game;
+
+  collisionX: number;
+  collisionY: number;
+  collisionRadius: number;
+
+  image: CanvasImageSource;
+
+  spriteWidth: number;
+  spriteHeight = 250;
+
+  width: number;
+  height: number;
+
+  spriteX: number;
+  spriteY: number;
+
+  frameX: number;
+  frameY: number;
+
+  constructor(game: Game) {
     this.game = game;
     this.collisionX = Math.random() * this.game.width;
     this.collisionY = Math.random() * this.game.height;
     this.collisionRadius = 45;
 
-    this.image = document.getElementById("obstacles");
+    this.image = document.getElementById("obstacles") as CanvasImageSource;
     this.spriteWidth = 250;
     this.spriteHeight = 250;
 
@@ -19,8 +40,7 @@ export default class Obstacle {
     this.frameX = Math.floor(Math.random() * 4);
     this.frameY = Math.floor(Math.random() * 3);
   }
-  /** @param {CanvasRenderingContext2D} context */
-  draw(context) {
+  draw(context: CanvasRenderingContext2D) {
     context.drawImage(
       this.image,
       this.frameX * this.spriteWidth,
