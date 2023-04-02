@@ -10,7 +10,7 @@ export default class Obstacle {
   image: CanvasImageSource;
 
   spriteWidth: number;
-  spriteHeight = 250;
+  spriteHeight: number;
 
   width: number;
   height: number;
