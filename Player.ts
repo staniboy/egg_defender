@@ -10,18 +10,20 @@ export default class Player {
   height: number;
   spriteX: number = 0;
   spriteY: number = 0;
+  frameX: number = 0;
+  frameY: number = 0;
 
   collisionX: number;
   collisionY: number;
   collisionRadius: number;
 
-  speedX: number;
-  speedY: number;
-  speedModifier: number;
+  speedX: number = 0;
+  speedY: number = 0;
+  speedModifier: number = 5;
 
-  dx: number;
-  dy: number;
-  distance: number;
+  dx: number = 0;
+  dy: number = 0;
+  distance: number = 0;
 
   constructor(game: Game) {
     this.game = game;
@@ -35,14 +37,6 @@ export default class Player {
     this.spriteHeight = 255;
     this.width = this.spriteWidth;
     this.height = this.spriteHeight;
-
-    this.speedX = 0;
-    this.speedY = 0;
-    this.speedModifier = 5;
-
-    this.dx = 0;
-    this.dy = 0;
-    this.distance = 0;
   }
 
   draw(context: CanvasRenderingContext2D) {
