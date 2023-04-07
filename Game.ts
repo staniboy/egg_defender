@@ -1,5 +1,6 @@
 import Player from "./Player";
 import Obstacle from "./Obstacle";
+import Egg from "./Egg";
 
 interface Mouse {
   x: number;
@@ -22,9 +23,17 @@ export default class Game {
   topMargin: number;
   player: Player;
   numberOfObstacles: number;
-  obstacles: Obstacle[];
+  obstacles: Obstacle[] = [];
+  maxEggs: number = 10;
+  eggs: Egg[] = [];
+  eggTimer: number = 0;
+  eggInterval: number = 500; // in milliseconds
   mouse: Mouse;
   debug: boolean = true;
+
+  fps: number = 70;
+  timer: number = 0;
+  interval: number = 1000 / this.fps;
 
   constructor(canvas: HTMLCanvasElement) {
     this.canvas = canvas;
@@ -33,7 +42,6 @@ export default class Game {
     this.topMargin = 260;
     this.player = new Player(this);
     this.numberOfObstacles = 10;
-    this.obstacles = [];
     this.mouse = {
       x: this.width * 0.5,
       y: this.height * 0.5,
@@ -62,12 +70,29 @@ export default class Game {
     });
   }
 
-  render(context: CanvasRenderingContext2D) {
-    this.obstacles.forEach((obstacle) => obstacle.draw(context));
-    this.player.draw(context);
-    this.player.update();
-  }
+  render(context: CanvasRenderingContext2D, deltaTime: number) {
+    if (this.timer > this.interval) {
+      context.clearRect(0, 0, this.width, this.height);
+      this.obstacles.forEach((obstacle) => obstacle.draw(context));
+      this.eggs.forEach((egg) => egg.draw(context));
+      this.player.draw(context);
+      this.player.update();
+      this.timer = 0;
+    }
 
+    if (this.eggTimer > this.eggInterval && this.eggs.length < this.maxEggs) {
+      this.addEgg();
+      this.eggTimer = 0;
+      console.log(this.eggs);
+    } else {
+      this.eggTimer += deltaTime;
+    }
+
+    this.timer += deltaTime;
+  }
+  addEgg() {
+    this.eggs.push(new Egg(this));
+  }
   populateObstacles() {
     let attempts = 0;
     while (this.obstacles.length < this.numberOfObstacles && attempts < 500) {
