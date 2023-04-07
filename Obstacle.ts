@@ -68,4 +68,5 @@ export default class Obstacle {
       context.stroke();
     }
   }
+  update() {}
 }

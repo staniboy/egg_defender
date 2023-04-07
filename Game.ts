@@ -24,10 +24,11 @@ export default class Game {
   player: Player;
   numberOfObstacles: number;
   obstacles: Obstacle[] = [];
-  maxEggs: number = 10;
+  maxEggs: number = 20;
   eggs: Egg[] = [];
   eggTimer: number = 0;
-  eggInterval: number = 500; // in milliseconds
+  eggInterval: number = 1000; // in milliseconds
+  gameObjects: any[] = [];
   mouse: Mouse;
   debug: boolean = true;
 
@@ -73,20 +74,19 @@ export default class Game {
   render(context: CanvasRenderingContext2D, deltaTime: number) {
     if (this.timer > this.interval) {
       context.clearRect(0, 0, this.width, this.height);
-      this.obstacles.forEach((obstacle) => obstacle.draw(context));
-      this.eggs.forEach((egg) => {
-        egg.draw(context);
-        egg.update();
+      this.gameObjects = [...this.eggs, ...this.obstacles, this.player];
+      this.gameObjects.sort((a, b) => a.collisionY - b.collisionY);
+      this.gameObjects.forEach((obj) => {
+        obj.draw(context);
+        obj.update();
       });
-      this.player.draw(context);
-      this.player.update();
+
       this.timer = 0;
     }
 
     if (this.eggTimer > this.eggInterval && this.eggs.length < this.maxEggs) {
       this.addEgg();
       this.eggTimer = 0;
-      console.log(this.eggs);
     } else {
       this.eggTimer += deltaTime;
     }
