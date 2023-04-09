@@ -1,6 +1,6 @@
 import type Game from "./Game";
-
-export default class Player {
+import GameObject from "./GameObject";
+export default class Player extends GameObject {
   game: Game;
 
   image: CanvasImageSource;
@@ -13,10 +13,6 @@ export default class Player {
   frameX: number = 0;
   frameY: number = 0;
 
-  collisionX: number;
-  collisionY: number;
-  collisionRadius: number;
-
   speedX: number = 0;
   speedY: number = 0;
   speedModifier: number = 5;
@@ -26,6 +22,7 @@ export default class Player {
   distance: number = 0;
 
   constructor(game: Game) {
+    super(game);
     this.game = game;
 
     this.collisionX = this.game.width * 0.5;

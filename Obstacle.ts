@@ -1,11 +1,8 @@
 import type Game from "./Game";
+import GameObject from "./GameObject";
 
-export default class Obstacle {
+export default class Obstacle extends GameObject {
   game: Game;
-
-  collisionX: number;
-  collisionY: number;
-  collisionRadius: number;
 
   image: CanvasImageSource;
 
@@ -22,6 +19,7 @@ export default class Obstacle {
   frameY: number;
 
   constructor(game: Game) {
+    super(game);
     this.game = game;
     this.collisionX = Math.random() * this.game.width;
     this.collisionY = Math.random() * this.game.height;

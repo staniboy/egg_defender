@@ -1,6 +1,7 @@
 import Player from "./Player";
 import Obstacle from "./Obstacle";
 import Egg from "./Egg";
+import type GameObject from "./GameObject";
 
 interface Mouse {
   x: number;
@@ -134,7 +135,7 @@ export default class Game {
    * @param {Object} a Object that contains collisionX and collisionY properties.
    * @param {Object} b Object that contains collisionX and collisionY properties.
    */
-  checkCollision(a: any, b: any): CollisionInfo {
+  checkCollision(a: GameObject, b: GameObject): CollisionInfo {
     const dx = a.collisionX - b.collisionX;
     const dy = a.collisionY - b.collisionY;
     const distance = Math.hypot(dy, dx);

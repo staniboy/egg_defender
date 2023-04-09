@@ -1,10 +1,9 @@
 import type Game from "./Game";
+import GameObject from "./GameObject";
 
-export default class Egg {
+export default class Egg extends GameObject {
   game: Game;
 
-  collisionX: number;
-  collisionY: number;
   collisionRadius: number = 40;
   margin: number = this.collisionRadius * 2;
 
@@ -18,6 +17,7 @@ export default class Egg {
   height: number = this.spriteHeight;
 
   constructor(game: Game) {
+    super(game);
     this.game = game;
     this.collisionX =
       this.margin + Math.random() * (this.game.width - this.margin * 2);
