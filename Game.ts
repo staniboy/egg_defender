@@ -31,6 +31,7 @@ export default class Game {
   eggTimer: number = 0;
   eggInterval: number = 1000; // in milliseconds
   enemies: Enemy[] = [];
+  numberOfEnemies: number = 3;
   gameObjects: any[] = [];
   mouse: Mouse;
   debug: boolean = true;
@@ -109,9 +110,9 @@ export default class Game {
       this.enemies.push(new Enemy(this));
     }
   }
-  populateObstacles() {
+  addObstacles(num: number) {
     let attempts = 0;
-    while (this.obstacles.length < this.numberOfObstacles && attempts < 500) {
+    while (this.obstacles.length < num && attempts < 500) {
       let testObstacle = new Obstacle(this);
       let overlap = false;
       this.obstacles.forEach((obstacle) => {
@@ -150,7 +151,7 @@ export default class Game {
   }
 
   init() {
-    this.addEnemies(3);
-    this.populateObstacles();
+    this.addEnemies(this.numberOfEnemies);
+    this.addObstacles(this.numberOfObstacles);
   }
 }
