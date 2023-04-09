@@ -4,28 +4,16 @@ import GameObject from "./GameObject";
 export default class Obstacle extends GameObject {
   game: Game;
 
-  image: CanvasImageSource;
-
-  spriteWidth: number;
-  spriteHeight: number;
-
-  width: number;
-  height: number;
-
-  spriteX: number;
-  spriteY: number;
-
   frameX: number;
   frameY: number;
 
   constructor(game: Game) {
-    super(game);
+    super(game, "obstacles");
     this.game = game;
     this.collisionX = Math.random() * this.game.width;
     this.collisionY = Math.random() * this.game.height;
     this.collisionRadius = 45;
 
-    this.image = document.getElementById("obstacles") as CanvasImageSource;
     this.spriteWidth = 250;
     this.spriteHeight = 250;
 

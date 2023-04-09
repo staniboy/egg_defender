@@ -3,7 +3,6 @@ import GameObject from "./GameObject";
 export default class Player extends GameObject {
   game: Game;
 
-  image: CanvasImageSource;
   spriteWidth: number;
   spriteHeight: number;
   width: number;
@@ -22,14 +21,13 @@ export default class Player extends GameObject {
   distance: number = 0;
 
   constructor(game: Game) {
-    super(game);
+    super(game, "bull");
     this.game = game;
 
     this.collisionX = this.game.width * 0.5;
     this.collisionY = this.game.height * 0.5;
     this.collisionRadius = 45;
 
-    this.image = document.getElementById("bull") as CanvasImageSource;
     this.spriteWidth = 255;
     this.spriteHeight = 256;
     this.width = this.spriteWidth;

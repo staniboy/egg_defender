@@ -7,7 +7,6 @@ export default class Egg extends GameObject {
   collisionRadius: number = 40;
   margin: number = this.collisionRadius * 2;
 
-  image: CanvasImageSource;
   spriteWidth: number = 110;
   spriteHeight: number = 135;
   spriteX: number;
@@ -17,7 +16,7 @@ export default class Egg extends GameObject {
   height: number = this.spriteHeight;
 
   constructor(game: Game) {
-    super(game);
+    super(game, "egg");
     this.game = game;
     this.collisionX =
       this.margin + Math.random() * (this.game.width - this.margin * 2);
@@ -26,7 +25,6 @@ export default class Egg extends GameObject {
       Math.random() * (this.game.height - this.game.topMargin - this.margin);
     this.spriteX = this.collisionX - this.width * 0.5;
     this.spriteY = this.collisionY - this.height * 0.5 - 25;
-    this.image = document.getElementById("egg") as CanvasImageSource;
   }
 
   draw(context: CanvasRenderingContext2D) {
@@ -50,7 +48,7 @@ export default class Egg extends GameObject {
   update() {
     this.spriteX = this.collisionX - this.width * 0.5;
     this.spriteY = this.collisionY - this.height * 0.5 - 25;
-    let collisionObjects = [this.game.player, ...this.game.obstacles];
+    let collisionObjects = [this.game.player, ...this.game.obstacles, ...this.game.enemies];
     collisionObjects.forEach((obj) => {
       const { collide, distance, dx, dy, sumOfRadii } =
         this.game.checkCollision(this, obj);
