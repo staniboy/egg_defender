@@ -1,6 +1,7 @@
 import Player from "./Player";
 import Obstacle from "./Obstacle";
 import Egg from "./Egg";
+import Enemy from "./Enemy";
 import type GameObject from "./GameObject";
 
 interface Mouse {
@@ -29,6 +30,7 @@ export default class Game {
   eggs: Egg[] = [];
   eggTimer: number = 0;
   eggInterval: number = 1000; // in milliseconds
+  enemies: Enemy[] = [];
   gameObjects: any[] = [];
   mouse: Mouse;
   debug: boolean = true;
@@ -75,7 +77,12 @@ export default class Game {
   render(context: CanvasRenderingContext2D, deltaTime: number) {
     if (this.timer > this.interval) {
       context.clearRect(0, 0, this.width, this.height);
-      this.gameObjects = [...this.eggs, ...this.obstacles, this.player];
+      this.gameObjects = [
+        ...this.eggs,
+        ...this.obstacles,
+        this.player,
+        ...this.enemies,
+      ];
       this.gameObjects.sort((a, b) => a.collisionY - b.collisionY);
       this.gameObjects.forEach((obj) => {
         obj.draw(context);
@@ -96,6 +103,11 @@ export default class Game {
   }
   addEgg() {
     this.eggs.push(new Egg(this));
+  }
+  addEnemies(num: number) {
+    for (let i = 0; i < num; i++) {
+      this.enemies.push(new Enemy(this));
+    }
   }
   populateObstacles() {
     let attempts = 0;
@@ -129,12 +141,6 @@ export default class Game {
     }
   }
 
-  // TODO: Typing
-  /**
-   * Checks if 2 game objects collide. Returns boolean and collision information.
-   * @param {Object} a Object that contains collisionX and collisionY properties.
-   * @param {Object} b Object that contains collisionX and collisionY properties.
-   */
   checkCollision(a: GameObject, b: GameObject): CollisionInfo {
     const dx = a.collisionX - b.collisionX;
     const dy = a.collisionY - b.collisionY;
@@ -144,6 +150,7 @@ export default class Game {
   }
 
   init() {
+    this.addEnemies(3);
     this.populateObstacles();
   }
 }
