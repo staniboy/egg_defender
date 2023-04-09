@@ -17,7 +17,7 @@ export default class Egg extends GameObject {
   height: number = this.spriteHeight;
 
   hatchTimer: number = 0;
-  hatchInterval: number = 1000;
+  hatchInterval: number = 5000;
 
   constructor(game: Game) {
     super(game, "egg");
@@ -72,7 +72,10 @@ export default class Egg extends GameObject {
       }
     });
     // Hatching Handling
-    if (this.hatchTimer > this.hatchInterval) {
+    if (
+      this.hatchTimer > this.hatchInterval ||
+      this.collisionY < this.game.topMargin
+    ) {
       this.deleteFlag = true;
       this.game.larva.push(
         new Larva(this.game, this.collisionX, this.collisionY)

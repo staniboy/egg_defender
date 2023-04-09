@@ -3,6 +3,7 @@ import Obstacle from "./Obstacle";
 import Egg from "./Egg";
 import Enemy from "./Enemy";
 import Larva from "./Larva";
+import type { Particle } from "./Particles";
 import type GameObject from "./GameObject";
 
 interface Mouse {
@@ -34,7 +35,8 @@ export default class Game {
   larva: Larva[] = [];
   enemies: Enemy[] = [];
   numberOfEnemies: number = 3;
-  gameObjects: GameObject[] = [];
+  particles: Particle[] = [];
+  gameObjects: any[] = [];
   mouse: Mouse;
   debug: boolean = true;
 
@@ -88,15 +90,16 @@ export default class Game {
         this.player,
         ...this.enemies,
         ...this.larva,
+        ...this.particles,
       ];
       this.gameObjects.sort((a, b) => a.collisionY - b.collisionY);
       this.gameObjects.forEach((obj) => {
         obj.draw(context);
         obj.update(deltaTime);
       });
-
       this.timer = 0;
     }
+    this.timer += deltaTime;
 
     if (this.eggTimer > this.eggInterval && this.eggs.length < this.maxEggs) {
       this.addEgg();
@@ -105,7 +108,14 @@ export default class Game {
       this.eggTimer += deltaTime;
     }
 
-    this.timer += deltaTime;
+    // Scoreboard
+    context.save();
+    context.textAlign = "left";
+    context.fillText("Score: " + this.saved, 25, 50);
+    if (this.debug) {
+      context.fillText("Lost: " + this.lost, 25, 100);
+    }
+    context.restore();
   }
   addEgg() {
     this.eggs.push(new Egg(this));
@@ -158,6 +168,7 @@ export default class Game {
   removeGameObjects() {
     this.eggs = this.eggs.filter((egg) => !egg.deleteFlag);
     this.larva = this.larva.filter((larva) => !larva.deleteFlag);
+    this.particles = this.particles.filter((particle) => !particle.deleteFlag);
   }
 
   init() {

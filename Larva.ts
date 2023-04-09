@@ -1,5 +1,6 @@
 import GameObject from "./GameObject";
 import type Game from "./Game";
+import { Firefly, Spark } from "./Particles";
 
 export default class Larva extends GameObject {
   frameX: number = 0;
@@ -49,10 +50,16 @@ export default class Larva extends GameObject {
     this.collisionY -= this.speedY;
     this.spriteX = this.collisionX - this.width * 0.5;
     this.spriteY = this.collisionY - this.height * 0.5 - 50;
+    // Moved to safety
     if (this.collisionY < this.game.topMargin) {
       this.deleteFlag = true;
       this.game.removeGameObjects();
       this.game.saved++;
+      for (let i = 0; i < 3; i++) {
+        this.game.particles.push(
+          new Firefly(this.game, this.collisionX, this.collisionY, "yellow")
+        );
+      }
     }
     // Collision Handling
     let collisionObjects = [this.game.player, ...this.game.obstacles];
@@ -66,10 +73,17 @@ export default class Larva extends GameObject {
         this.collisionY = obj.collisionY + (sumOfRadii + 1) * unit_y;
       }
     });
+    // Got eaten
     this.game.enemies.forEach((enemy) => {
       if (this.game.checkCollision(this, enemy).collide) {
         this.deleteFlag = true;
+        this.game.removeGameObjects();
         this.game.lost++;
+        for (let i = 0; i < 5; i++) {
+          this.game.particles.push(
+            new Spark(this.game, this.collisionX, this.collisionY, "white")
+          );
+        }
       }
     });
   }
