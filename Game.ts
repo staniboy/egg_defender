@@ -24,7 +24,7 @@ export default class Game {
   height: number;
   topMargin: number;
   player: Player;
-  numberOfObstacles: number;
+  numberOfObstacles: number = 10;
   obstacles: Obstacle[] = [];
   maxEggs: number = 20;
   eggs: Egg[] = [];
@@ -46,7 +46,6 @@ export default class Game {
     this.height = this.canvas.height;
     this.topMargin = 260;
     this.player = new Player(this);
-    this.numberOfObstacles = 10;
     this.mouse = {
       x: this.width * 0.5,
       y: this.height * 0.5,
