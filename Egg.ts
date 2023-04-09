@@ -1,5 +1,6 @@
 import type Game from "./Game";
 import GameObject from "./GameObject";
+import Larva from "./Larva";
 
 export default class Egg extends GameObject {
   game: Game;
@@ -14,6 +15,9 @@ export default class Egg extends GameObject {
 
   width: number = this.spriteWidth;
   height: number = this.spriteHeight;
+
+  hatchTimer: number = 0;
+  hatchInterval: number = 1000;
 
   constructor(game: Game) {
     super(game, "egg");
@@ -43,12 +47,20 @@ export default class Egg extends GameObject {
       context.fill();
       context.restore();
       context.stroke();
+      const displayTimer = (this.hatchTimer * 0.001).toFixed(0);
+      context.fillText(displayTimer, this.collisionX, this.collisionY + 13);
     }
   }
-  update() {
+  update(deltaTime: number) {
     this.spriteX = this.collisionX - this.width * 0.5;
     this.spriteY = this.collisionY - this.height * 0.5 - 25;
-    let collisionObjects = [this.game.player, ...this.game.obstacles, ...this.game.enemies];
+
+    // Collision Handling
+    let collisionObjects = [
+      this.game.player,
+      ...this.game.obstacles,
+      ...this.game.enemies,
+    ];
     collisionObjects.forEach((obj) => {
       const { collide, distance, dx, dy, sumOfRadii } =
         this.game.checkCollision(this, obj);
@@ -59,5 +71,15 @@ export default class Egg extends GameObject {
         this.collisionY = obj.collisionY + (sumOfRadii + 1) * unit_y;
       }
     });
+    // Hatching Handling
+    if (this.hatchTimer > this.hatchInterval) {
+      this.deleteFlag = true;
+      this.game.larva.push(
+        new Larva(this.game, this.collisionX, this.collisionY)
+      );
+      this.game.removeGameObjects();
+    } else {
+      this.hatchTimer += deltaTime;
+    }
   }
 }

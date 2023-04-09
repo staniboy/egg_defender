@@ -18,6 +18,8 @@ export default class GameObject {
   spriteX: number = 0;
   spriteY: number = 0;
 
+  deleteFlag: Boolean = false;
+
   constructor(game: Game, image: string) {
     this.game = game;
     this.image = document.getElementById(image) as CanvasImageSource;
@@ -40,5 +42,5 @@ export default class GameObject {
       context.stroke();
     }
   }
-  update() {}
+  update(deltaTime: number) {}
 }

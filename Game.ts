@@ -2,6 +2,7 @@ import Player from "./Player";
 import Obstacle from "./Obstacle";
 import Egg from "./Egg";
 import Enemy from "./Enemy";
+import Larva from "./Larva";
 import type GameObject from "./GameObject";
 
 interface Mouse {
@@ -26,17 +27,21 @@ export default class Game {
   player: Player;
   numberOfObstacles: number = 10;
   obstacles: Obstacle[] = [];
-  maxEggs: number = 20;
+  maxEggs: number = 5;
   eggs: Egg[] = [];
   eggTimer: number = 0;
   eggInterval: number = 1000; // in milliseconds
+  larva: Larva[] = [];
   enemies: Enemy[] = [];
   numberOfEnemies: number = 3;
-  gameObjects: any[] = [];
+  gameObjects: GameObject[] = [];
   mouse: Mouse;
   debug: boolean = true;
 
-  fps: number = 70;
+  lost: number = 0;
+  saved: number = 0;
+
+  fps: number = 140;
   timer: number = 0;
   interval: number = 1000 / this.fps;
 
@@ -82,11 +87,12 @@ export default class Game {
         ...this.obstacles,
         this.player,
         ...this.enemies,
+        ...this.larva,
       ];
       this.gameObjects.sort((a, b) => a.collisionY - b.collisionY);
       this.gameObjects.forEach((obj) => {
         obj.draw(context);
-        obj.update();
+        obj.update(deltaTime);
       });
 
       this.timer = 0;
@@ -147,6 +153,11 @@ export default class Game {
     const distance = Math.hypot(dy, dx);
     const sumOfRadii = a.collisionRadius + b.collisionRadius;
     return { collide: distance < sumOfRadii, dx, dy, distance, sumOfRadii };
+  }
+
+  removeGameObjects() {
+    this.eggs = this.eggs.filter((egg) => !egg.deleteFlag);
+    this.larva = this.larva.filter((larva) => !larva.deleteFlag);
   }
 
   init() {
