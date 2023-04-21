@@ -38,12 +38,14 @@ export default class Game {
   particles: Particle[] = [];
   gameObjects: any[] = [];
   mouse: Mouse;
-  debug: boolean = true;
+  debug: boolean = false;
 
   lost: number = 0;
   saved: number = 0;
+  winningScore = 30;
+  gameOver: boolean = false;
 
-  fps: number = 140;
+  fps: number = 150;
   timer: number = 0;
   interval: number = 1000 / this.fps;
 
@@ -79,6 +81,9 @@ export default class Game {
     document.addEventListener("keydown", (e: KeyboardEvent) => {
       if (e.code == "KeyD") this.debug = !this.debug;
     });
+    document.addEventListener("keydown", (e: KeyboardEvent) => {
+      if (e.code == "KeyR") this.restart();
+    });
   }
 
   render(context: CanvasRenderingContext2D, deltaTime: number) {
@@ -101,7 +106,11 @@ export default class Game {
     }
     this.timer += deltaTime;
 
-    if (this.eggTimer > this.eggInterval && this.eggs.length < this.maxEggs) {
+    if (
+      this.eggTimer > this.eggInterval &&
+      this.eggs.length < this.maxEggs &&
+      !this.gameOver
+    ) {
       this.addEgg();
       this.eggTimer = 0;
     } else {
@@ -116,6 +125,39 @@ export default class Game {
       context.fillText("Lost: " + this.lost, 25, 100);
     }
     context.restore();
+
+    // Game Over message
+    if (this.saved >= this.winningScore) {
+      this.gameOver = true;
+      context.save();
+      context.fillStyle = "rgba(0,0,0,0.5)";
+      context.fillRect(0, 0, this.width, this.height);
+      context.fillStyle = "white";
+      context.textAlign = "center";
+      context.shadowOffsetX = 4;
+      context.shadowOffsetY = 4;
+      context.shadowColor = "black";
+      let message1;
+      let message2;
+      if (this.lost <= 5) {
+        message1 = "Bullseye!";
+        message2 = "You bullied the bullies!";
+      } else {
+        message1 = "Bullocks!";
+        message2 = "You lost " + this.lost + " larve, don't be a pushover";
+      }
+      context.font = "130px Bangers";
+      context.fillText(message1, this.width * 0.5, this.height * 0.5 - 20);
+      context.font = "40px Bangers";
+      context.fillText(message2, this.width * 0.5, this.height * 0.5 + 30);
+      context.font = "40px Bangers";
+      context.fillText(
+        "Final score: " + this.saved + ". Press 'R' to butt heads again!",
+        this.width * 0.5,
+        this.height * 0.5 + 80
+      );
+      context.restore();
+    }
   }
   addEgg() {
     this.eggs.push(new Egg(this));
@@ -174,5 +216,22 @@ export default class Game {
   init() {
     this.addEnemies(this.numberOfEnemies);
     this.addObstacles(this.numberOfObstacles);
+  }
+  restart() {
+    this.player.restart();
+    this.mouse = {
+      x: this.width * 0.5,
+      y: this.height * 0.5,
+      pressed: false,
+    };
+    this.obstacles = [];
+    this.eggs = [];
+    this.enemies = [];
+    this.particles = [];
+    this.larva = [];
+    this.lost = 0;
+    this.saved = 0;
+    this.gameOver = false;
+    this.init();
   }
 }
