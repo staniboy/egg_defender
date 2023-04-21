@@ -54,7 +54,7 @@ export default class Larva extends GameObject {
     if (this.collisionY < this.game.topMargin) {
       this.deleteFlag = true;
       this.game.removeGameObjects();
-      this.game.saved++;
+      if (!this.game.gameOver) this.game.saved++;
       for (let i = 0; i < 3; i++) {
         this.game.particles.push(
           new Firefly(this.game, this.collisionX, this.collisionY, "yellow")
@@ -62,7 +62,11 @@ export default class Larva extends GameObject {
       }
     }
     // Collision Handling
-    let collisionObjects = [this.game.player, ...this.game.obstacles];
+    let collisionObjects = [
+      this.game.player,
+      ...this.game.obstacles,
+      ...this.game.eggs,
+    ];
     collisionObjects.forEach((obj) => {
       const { collide, distance, dx, dy, sumOfRadii } =
         this.game.checkCollision(this, obj);
@@ -78,7 +82,7 @@ export default class Larva extends GameObject {
       if (this.game.checkCollision(this, enemy).collide) {
         this.deleteFlag = true;
         this.game.removeGameObjects();
-        this.game.lost++;
+        if (!this.game.gameOver) this.game.lost++;
         for (let i = 0; i < 5; i++) {
           this.game.particles.push(
             new Spark(this.game, this.collisionX, this.collisionY, "white")
