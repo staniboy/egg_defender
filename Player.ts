@@ -14,7 +14,7 @@ export default class Player extends GameObject {
 
   speedX: number = 0;
   speedY: number = 0;
-  speedModifier: number = 5;
+  speedModifier: number = 2;
 
   dx: number = 0;
   dy: number = 0;
@@ -121,5 +121,9 @@ export default class Player extends GameObject {
         this.collisionY = obstacle.collisionY + (sumOfRadii + 1) * unit_y;
       }
     });
+  }
+  restart() {
+    this.collisionX = this.game.width * 0.5;
+    this.collisionY = this.game.height * 0.5;
   }
 }
