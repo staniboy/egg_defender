@@ -51,7 +51,6 @@ export class Spark extends Particle {
     } else {
       this.deleteFlag = true;
       this.game.removeGameObjects();
-      console.log("particle removed");
     }
   }
 }
